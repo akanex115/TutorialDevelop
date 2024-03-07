@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.techacademy.entity.User;
 import com.techacademy.repository.UserRepository;
 
+// テーブルの処理をするためのロジックが記載
 @Service
 public class UserService {
     private final UserRepository userRepository;
