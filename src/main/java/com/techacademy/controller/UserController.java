@@ -60,9 +60,6 @@ public class UserController {
         if( id != null) {
          // 一覧画面から遷移
             model.addAttribute("user", service.getUser(id));
-        }else {
-            // postUser()から遷移
-            return "user/update";
         }
         // User更新画面に遷移
         return "user/update";
