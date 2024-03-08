@@ -72,14 +72,12 @@ public class UserController {
     @PostMapping("/update/{id}/")
     public String postUser(@Validated User user, BindingResult res, Model model) {
      // BindingResultにerrorを登録しておく。エンティティで＠Notnull（画面と連動）などでチェックされた結果が入ってくる。
-        if(res.hasErrors()) {
-            // エラーあり
+        if(res.hasErrors()) {// エラーありの場合
+            model.addAttribute("user", user);
             return getUser(null, model);
         }
-        // エラーがなければUser登録
-        service.saveUser(user);
-        // 一覧画面にリダイレクト
-        return "redirect:/user/list";
+        service.saveUser(user); // エラーがなければUser登録
+        return "redirect:/user/list"; // 一覧画面にリダイレクト
     }
 
     /** User削除処理 */

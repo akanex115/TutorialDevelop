@@ -7,6 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.List;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,4 +62,30 @@ class UserControllerTest {
         assertEquals(1, user.getId());
         assertEquals("キラメキ太郎", user.getName());
     }
+
+    void testGetList() throws Exception {
+        // HTTPリクエストに対するレスポンスの検証
+           MvcResult result = mockMvc.perform(get("/user/list")) // URLにアクセス
+               .andExpect(status().isOk()) // ステータスを確認
+               .andExpect(model().attributeExists("userlist")) // Modelの内容を確認
+               .andExpect(model().hasNoErrors()) // Modelのエラー有無の確認
+               .andExpect(view().name("user/list")) // viewの確認
+               .andReturn(); // 内容の取得
+
+           // userListの検証
+           // ModelからuserListを取り出す
+           List<User> list = (List<User>) result.getModelAndView().getModel().get("userlist");
+           List<User> userList = list;
+           assertEquals(3, userList.size());
+
+           assertEquals(1, userList.get(0).getId());
+           assertEquals("キラメキ太郎", userList.get(0).getName());
+
+           assertEquals(2, userList.get(1).getId());
+           assertEquals("キラメキ次郎", userList.get(1).getName());
+
+           assertEquals(3, userList.get(2).getId());
+           assertEquals("キラメキ花子", userList.get(2).getName());
+       }
+
 }
